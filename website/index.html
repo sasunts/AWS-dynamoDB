@@ -1,12 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>DynamoDB Assignment</title>
+    <style>
+        .button {background-color: #4CAF50;border: none;color: white;padding: 15px 32px;border-radius: 12px;text-align: center;text-decoration: none;
+            display: inline-block;font-size: 16px;margin: 4px 2px;cursor: pointer;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);}
+        .center {margin: auto;width: 60%;border: 0px solid #73AD21;padding: 10px;}
+    </style><style>
+        input[type=text] {width: 200px;box-sizing: border-box;border: 2px solid #ccc;border-radius: 4px;font-size: 16px;background-color: white;
+            background-position: 10px 10px;background-repeat: no-repeat;padding: 12px 20px 12px 40px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);}
+    </style>
+    <style>
+            #movies {font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;border-collapse: collapse;width: 100%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);}
+            #movies td, #movies th {border: 1px solid #ddd;padding: 8px;}
+            #movies tr:nth-child(even){background-color: #f2f2f2;}
+            #movies tr:hover {background-color: #ddd;}
+            #movies th {padding-top: 12px;padding-bottom: 12px;text-align: left;background-color: #4CAF50;color: white;}
+            </style>
 </head>
+
 <body>
-    
+    <div  id="app" style = "font-family:Arial">
+        <h1 style="text-align:center">Working with DynamoDB</h1>
+        <!-- Vue app ID -->
+        <div class="center" style="text-align:center">
+            <button class="button" type="submit" v-on:click='createDB'>Create</button>
+            <button class="button" type="submit" v-on:click='destroyDB'>Destroy</button><br><br>
+            <div class="center">
+                <h3 style="text-align:center">Search for a movie:</h3>
+                <input type="text" v-model="param1" placeholder="Year">
+                <input type="text" v-model="param2" placeholder="Movie"><br><br>
+                <button class="button" type="submit" v-on:click='queryDB'>Query</button><br>
+                <div>
+                        <table id="movies" style="width:100%" >
+                            <br><br>
+                                <tr>
+                                  <th>Title</th>
+                                  <th>Year</th>
+                                  <th>Rank</th>
+                                  <th>Release Date</th>
+                                </tr>
+                                <tr v-for="result in results">
+                                  <td>{{ result.title }}</td>
+                                  <td>{{result.year}}</td>
+                                  <td>{{result.info.rank}}</td>
+                                  <td>{{result.info.release_date}}</td>
+                                </tr>
+                            </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Importing vue and jquery -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        // Creation of a new vue app
+        new Vue({
+            el: "#app",
+            data: {
+                text: {},
+                param1: "",
+                param2: "",
+                results: {},
+            },
+            methods: {
+                // This function recieves the responce from the server and does the required processes
+                createDB: function () {
+                    var self = this;
+                    let res = fetch("create/")
+                },
+                queryDB: function () {
+                    var self = this;
+                    let res = fetch("query/" + self.param1 + "_" + self.param2)
+                    res.then(response => response.json())
+                    .then(response => {
+                        console.log(response)
+                        this.results = response.Items
+                    });
+                },
+                destroyDB: function () {
+                    var self = this;
+                    let res = fetch("destroy/")
+                },
+            }
+        })
+    </script>
 </body>
+
 </html>
