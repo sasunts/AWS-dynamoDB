@@ -4,7 +4,7 @@ const app = express();
 const aws = require('aws-sdk');
 
 //Assigning a port value
-const port = "3001";
+const port = "80";
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
