@@ -1,15 +1,7 @@
 //Importing relevant libraries
-var jsdom = require("jsdom");
-const { JSDOM } = jsdom;
-const { window } = new JSDOM();
-const { document } = (new JSDOM('')).window;
-global.document = document;
 const express = require('express');
 const app = express();
 const aws = require('aws-sdk');
-const Vue = require("vue");
-
-var $ = jQuery = require('jquery')(window);
 
 //Assigning a port value
 const port = "3001";
